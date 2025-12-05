@@ -29,6 +29,9 @@ jobs:
           distribution: 'temurin'
           cache: 'maven' # Utilise le cache GitHub pour les dépendances Maven
 
+      - name: Aller dans le dossier de lancement 🔑
+        run: cd Back
+
       - name: Rendre le Maven Wrapper exécutable 🔑
         run: chmod +x ./mvnw
 
