@@ -43,6 +43,7 @@ public class SecurityConfiguration {
             authorizeRequests ->
                 authorizeRequests
                     .requestMatchers(
+                        "/",
                         "/api/auth/**",
                         "/images/**",
                         "/v3/api-docs/**",

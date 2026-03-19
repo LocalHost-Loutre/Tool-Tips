@@ -134,7 +134,7 @@ public class JwtService {
    * @return Toutes les revendications extraites du token JWT.
    */
   private Claims extractAllClaims(String token) {
-    return Jwts.parserBuilder()
+    return Jwts.parser()
         .setSigningKey(getSignInKey())
         .build()
         .parseClaimsJws(token)

@@ -6,6 +6,11 @@ import backtooltips.dtos.RegisterUserDto;
 import backtooltips.models.User;
 import backtooltips.services.AuthentificationService;
 import backtooltips.services.JwtService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +19,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Contrôleur pour les opérations d'authentification des utilisateurs. */
 @RequestMapping("/api/auth")
+@Slf4j
+@Tag(name = "Auhtentification", description = "Endpoint for Authent / Endpoint concernant l'authentification")
+@ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "OK",
+                        content = @Content),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "Not found",
+                        content = @Content
+                ),
+                @ApiResponse(
+                        responseCode = "500",
+                        description = "Internal serveur Error",
+                        content = @Content
+                ),
+        })
 @RestController
 public class AuthentificationController {
   private final JwtService jwtService;

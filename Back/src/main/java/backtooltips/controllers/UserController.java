@@ -5,6 +5,12 @@ import backtooltips.models.User;
 import backtooltips.services.UserService;
 import java.util.List;
 import java.util.Optional;
+
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Contrôleur pour la gestion des utilisateurs. */
 @RequestMapping("/api")
+@Slf4j
+@Tag(name = "User / Utilisateur", description = "Endpoint for User / Endpoint concernant utilisateurs")
+@ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "OK",
+                        content = @Content),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "Not found",
+                        content = @Content
+                ),
+                @ApiResponse(
+                        responseCode = "500",
+                        description = "Internal serveur Error",
+                        content = @Content
+                ),
+                })
 @RestController
 public class UserController {
   private final UserService userService;
