@@ -1,0 +1,51 @@
+name: CI Spring Boot - Build & Quality Checks
+
+on:
+  # Déclenche le workflow sur chaque push sur la branche 'Back/AuthentificationSpring'
+  push:
+    branches: [ "Back/AuthentificationSpring" ]
+  # Déclenche le workflow sur chaque Pull Request ciblant la branche 'main'
+  pull_request:
+    branches: [ "main" ]
+
+  # Permet de lancer le workflow manuellement depuis l'interface GitHub
+  workflow_dispatch:
+
+jobs:
+  build:
+    # Utilisation d'une image Ubuntu standard pour l'exécution
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        # Récupère le code du dépôt
+        uses: actions/checkout@v4
+
+      - name: Configuration de Java (JDK 25)
+        # Configure le JDK requis
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'maven' # Utilise le cache GitHub pour les dépendances Maven
+
+      - name: Aller dans le dossier de lancement 🔑
+        run: cd Back
+
+      - name: Rendre le Maven Wrapper exécutable 🔑
+        run: chmod +x ./mvnw
+
+      - name: Vérification du formatage avec Spotless
+        # Exécute la tâche Spotless pour s'assurer que le code est formaté correctement
+        run: ./mvnw spotless:check
+
+      - name: Compilation et Installation des Dépendances
+        # Lance la compilation sans exécuter les tests pour gagner du temps et valider la structure
+        run: ./mvnw clean install -DskipTests
+
+      - name: Exécution des Tests Unitaires et de Couverture
+        # Étape dédiée à l'exécution des tests.
+        run: ./mvnw test
+
+      - name: Finalisation du Build
+        run: ./mvnw package
